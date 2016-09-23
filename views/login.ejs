@@ -1,0 +1,16 @@
+<h2>login</h2>
+<% if(messages.error){ %>
+  <% console.log(messages) %>
+  <p class="error"><%= messages.error %></p>
+<% } %>
+<form action="/login" method="post">
+  <label>username
+    <input type="text" name="username" />
+  </label>
+  <br /><br />
+  <label>password
+    <input type="password" name="password" />
+  </label>
+  <br /><br />
+  <button type="submit">submit</button>
+</form>

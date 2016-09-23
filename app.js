@@ -4,13 +4,18 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const flash = require("express-flash");
+const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
+const passport = require("./config/passport");
 
+const middleware = require("./routes/middleware");
 const routes = require('./routes/index');
 const users = require('./routes/users');
 
 // Set up mongoose
 const mongoose = require('mongoose');
-// You need to connect to your MongoDB here
+mongoose.connect("mongodb://127.0.0.1/users-authentication");
 
 const app = express();
 
@@ -25,9 +30,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(flash());
+app.use(session({
+  secret: "foo",
+  store: new MongoStore({mongooseConnection: mongoose.connection})
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', routes);
-app.get('/protected', function(req, res, next) {
+app.get('/protected', middleware.auth, function(req, res, next) {
   return res.json('I am a protected resource!');
 });
 

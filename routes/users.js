@@ -1,9 +1,25 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const UsersController = require("../controllers/UsersController");
 
-/* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  UsersController.list(req, res, next);
+});
+
+router.get("/:id", function(req, res, next){
+  UsersController.show(req, res, next);
+});
+
+router.post("/", function(req, res, next){
+  UsersController.create(req, res, next);
+});
+
+router.put("/:id", function(req, res, next){
+  UsersController.update(req, res, next);
+});
+
+router.delete("/:id", function(req, res, next){
+  UsersController.delete(req, res, next);
 });
 
 module.exports = router;

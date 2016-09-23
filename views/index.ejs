@@ -6,7 +6,12 @@
   <link rel="stylesheet" href="/dist/css/app.css" media="screen" title="no title" charset="utf-8">
 </head>
 <body>
-  <div id="app"></div>
+  <h1><%= title %></h1>
+  <p>Signed in as <%= username %></p>
+
+  <form method="POST" action="/logout">
+    <button type="submit">logout</button>
+  </form>
 
   <script type="text/javascript" src="/dist/js/bundle.js"></script>
 </body>
